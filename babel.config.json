@@ -1,0 +1,39 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "useBuiltIns": "usage",
+        "corejs": 3,
+        "targets": {
+          "chrome": "58",
+          "ie": "8"
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "corejs": 2
+      }
+    ],
+    "@babel/plugin-syntax-dynamic-import",
+    [
+      "component",
+      {
+        "libraryName": "element-ui",
+        "styleLibraryName": "theme-chalk"
+      }
+    ],
+    [
+      "import",
+      {
+        "libraryName": "@icon-park/vue",
+        "libraryDirectory": "es/icons",
+        "camel2DashComponentName": false
+      }
+    ]
+  ]
+}

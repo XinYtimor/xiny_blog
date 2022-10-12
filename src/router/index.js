@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
+import store from '../store/index'
+window.$store = store
 Vue.use(VueRouter)
 
 const routes = [
@@ -102,6 +105,7 @@ function addRouter() {
       icon: 'el-icon-s-help',
       component: 'tag',
       father: 'tag',
+      rules: ['delete'],
     },
     {
       name: 'tagContent',
@@ -110,6 +114,7 @@ function addRouter() {
       icon: 'el-icon-s-help',
       component: 'tagContent',
       father: 'tag',
+      rules: ['add'], //通过用户权限接口获取到的每个路由的权限信息保存到rules中
     },
   ]
   getRouterList(user)
@@ -138,6 +143,7 @@ function getRouterList(user) {
             item.component
           }.vue`
         ),
+      meta: { rules: item.rules }, //将每个路由的权限信息保存到路由的meta中
     })
   })
 }
@@ -151,6 +157,9 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  console.log('routerto', to.meta.rules)
+  window.$store.commit('updateUserPermiss', to.meta.rules) //在页面跳转时将每个页面的权限信息同步到vuex中，进入到permiss。js中
+  console.log('vuex', window.$store.state.userInfo)
   next()
 })
 
